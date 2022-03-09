@@ -1,2 +1,2 @@
 # super-kruto
-Super-kruto is a JavaScript framework of new generation
+Super-kruto is a next generation JavaScript framework
