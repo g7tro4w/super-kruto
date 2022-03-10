@@ -54,9 +54,12 @@
             return this
         }
 
-        const change = (name, callback) => {
-            this.__store[name] = callback(this.__store[name])
-            
+        const change = (name, callbackOrValue) => {
+            if (typeof callbackOrValue === 'function') {
+                this.__store[name] = callbackOrValue(this.__store[name])
+            } else {
+                this.__store[name] = callbackOrValue
+            }
             return this
         }
 
