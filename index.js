@@ -54,9 +54,9 @@
             return this
         }
 
-        const change = (name, value) => {
-            this.__store[name] = value
-
+        const change = (name, callback) => {
+            this.__store[name] = callback(this.__store[name])
+            
             return this
         }
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super-kruto DEMO</title>
+    <script src="./index.js"></script>
+    <script>
+        if (!window.__sk__) {
+            return;
+        }
+        var sk = window.__sk__()
+
+        sk.add('a', 0).bind('.heading-1', 'a')
+
+        function onButtonClick () {
+            sk.change('a', (a) => a++)
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1 class="heading-1"></h1>
+        <button onclick="onButtonClick"></button>
+    </div>
+</body>
+</html>
