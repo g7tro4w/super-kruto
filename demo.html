@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super-kruto DEMO</title>
     <script src="./index.js"></script>
+    <style>
+        .red-text {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,6 +18,7 @@
         <button class="button-1">-</button>
         <button class="button-2">Set random value</button>
         <button class="button-3">+</button>
+        <button class="button-4">Red text</button>
     </div>
 </body>
 <script>
@@ -26,6 +32,9 @@
         });
         document.querySelector('.button-3').addEventListener('click', () => {
             sk.change('a', (a) => ++a)
+        });
+        document.querySelector('.button-4').addEventListener('click', () => {
+            sk.bindClass('.heading-1', 'red-text', ['a'], () => true)
         });
         sk.add('a', 0).bind('.heading-1', 'a');
     }

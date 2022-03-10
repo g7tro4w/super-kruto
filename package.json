@@ -1,0 +1,20 @@
+{
+  "name": "sk",
+  "version": "1.0.0",
+  "description": "new generation JavaScript framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g7tro4w/super-kruto.git"
+  },
+  "author": "g7tro4w",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/g7tro4w/super-kruto/issues"
+  },
+  "homepage": "https://github.com/g7tro4w/super-kruto#readme"
+}
