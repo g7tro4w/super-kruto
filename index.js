@@ -1,29 +1,53 @@
 (function () {
     const sk = function () {
-        const __store = {};
-        const __selectors = {};
-        const __classes = {};
+        Object.defineProperty(this, '__store', {
+            writable: false,
+            enumerable: false,
+            configurable: true,
+            value: {},
+        })
+        Object.defineProperty(this, '__conditions', {
+            writable: false,
+            enumerable: false,
+            configurable: true,
+            value: {},
+        })
+        
+        Object.defineProperty(this, '__selectors', {
+            writable: false,
+            enumerable: false,
+            configurable: true,
+            value: {},
+        })
+
+        Object.defineProperty(this, '__classes', {
+            writable: false,
+            enumerable: false,
+            configurable: true,
+            value: {},
+        })
 
         const add = (name, value) => {
             let localValue = value
-            __selectors[name] = []
-            __classes[name] = []
-            Object.defineProperty(__store, name, {
+            console.log('local', localValue)
+            this.__selectors[name] = []
+            this.__classes[name] = []
+            Object.defineProperty(this.__store, name, {
                 enumerable: true,
                 get: () => localValue,
                 set: (newValue) => {
                     localValue = newValue
 
-                    const selectors = __selectors[name]
+                    const selectors = this.__selectors[name]
                     selectors.length !== 0 && selectors.forEach((selector) => {
                         const el = document.querySelector(selector)
 
                         el.innerText = newValue
                     })
 
-                    const classes = __classes[name]
+                    const classes = this.__classes[name]
                     classes.length !== 0 && classes.forEach(([element, className, condition]) => {
-                        condition(Object.assign({}, __store)) ? element.classList.add(className) : element.classList.remove(className)
+                        condition(Object.assign({}, this.__store)) ? element.classList.add(className) : element.classList.remove(className)
                     })
                 }
             })
@@ -32,53 +56,28 @@
 
         const change = (name, callbackOrValue) => {
             if (typeof callbackOrValue === 'function') {
-                __store[name] = callbackOrValue(__store[name])
+                this.__store[name] = callbackOrValue(this.__store[name])
             } else {
-                __store[name] = callbackOrValue
+                this.__store[name] = callbackOrValue
             }
             return this
         }
 
         const bind = (selector, name) => {
-            __selectors[name].push(selector);
+            this.__selectors[name].push(selector);
 
             const element = document.querySelector(selector);
 
-            element.innerText = __store[name]
+            element.innerText = this.__store[name]
 
             return this
         }
-//attrbiteValue - string | object | array
-        const bindAttribute = (element, attribute, attributeValue) => {
-            let attributeResultValue = null;
-            if (typeof attributeValue === 'string') {
-                attributeResultValue = attributeValue
-            } else if (attributeValue && typeof attributeValue === 'object') {
-                const objectParseFunction = (obj) => {
-                    Object.entries(obj).reduce((acc, [name, callback]) => {
-                        if (typeof callback === 'function' && callback(__store)) {
-                            acc.push(name)
-                        }
-                        return acc
-                    }, [])
-                }
 
-                if (Array.isArray(attributeValue)) {
-                    attributeResultValue = attrbiteValue.reduce((acc, el) => {
-                        if (el && typeof el === 'object') {
-                            acc.concat(objectParseFunction(el))
-                        } else if (typeof el === 'string') {
-                            acc.push(el)
-                        }
-                        return acc
-                    }, []).join(' ')
-                } else {
-                    attributeResultValue = objectParseFunction(el).join(' ')
-                }
-            }
-            element.setAttribute(attribute, attributeResultValue)
-            
-            const result = conditionCallback(Object.assign({}, __store))
+        const bindClass = (selector, className, names, conditionCallback) => {
+            const element = document.querySelector(selector);
+            names.forEach((name) => this.__classes[name].push([element, className, conditionCallback]))
+            const result = conditionCallback(Object.assign({}, this.__store))
+            console.log('result', result, this.__store)
             if (result) {
                 const classList = element.classList
                 if (!classList.contains(className)) {
@@ -92,10 +91,41 @@
             add,
             change,
             bind,
-            bindAttribute
+            bindClass
         })
 
         return this
     }
     window.__sk__ = sk
 })()
+
+/*
+
+ - rerender function
+
+ - loop and conditional render
+
+ - redesign class binding
+
+ - elements instead of selectors
+
+ - remove extra calculating classes and variables
+
+
+add
+change
+
+
+
+// binding test
+const framework = __sk__();
+framework.add('a', 12).bind('.main-page-content > h1', 'a');
+
+// class-binding test
+const framework = __sk__();
+framework.add('a', 12).add('b', 15).bindClass('.main-page-content > h1', 'new-class', ['a', 'b'], ({a, b}) => {console.log(a, b); return a < b;});
+
+Проверял тутачки
+https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+
+*/
