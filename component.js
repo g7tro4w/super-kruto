@@ -4,8 +4,6 @@
     }
 
     const factory = function (name, html, injectToElement) {
-        injectToElement.innerHtml = html
-
         class ComponentClass extends HTMLElement {
             render () {
                 this.isRendered = true;
