@@ -98,34 +98,3 @@
     }
     window.__sk__ = sk
 })()
-
-/*
-
- - rerender function
-
- - loop and conditional render
-
- - redesign class binding
-
- - elements instead of selectors
-
- - remove extra calculating classes and variables
-
-
-add
-change
-
-
-
-// binding test
-const framework = __sk__();
-framework.add('a', 12).bind('.main-page-content > h1', 'a');
-
-// class-binding test
-const framework = __sk__();
-framework.add('a', 12).add('b', 15).bindClass('.main-page-content > h1', 'new-class', ['a', 'b'], ({a, b}) => {console.log(a, b); return a < b;});
-
-Проверял тутачки
-https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
-
-*/
